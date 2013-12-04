@@ -33,3 +33,16 @@ asyncTest('getLinkedinCount', function() {
 	testLinkedin('http://smallbusiness.com/make-sell/digital-marketing/tips-from-etsy/');
 });
 
+asyncTest('getFacebookCount', function() {
+	var countDown = createAsyncCounter(3);
+
+	function testFacebook(url) {
+		socialButtons.getFacebookCount(url).done(function(data, status, xhr) {
+			deepEqual(typeof data.shares, 'number');
+		}).always(countDown);
+	}
+
+	testFacebook('http://smallbusiness.com');
+	testFacebook('http://google.com');
+	testFacebook('http://smallbusiness.com/make-sell/digital-marketing/tips-from-etsy/');
+});

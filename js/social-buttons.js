@@ -24,7 +24,10 @@ var socialButtons = function() {
 
 
 	var getFacebookCount = function(url) {
-
+		return $.ajax({
+			url: 'http://graph.facebook.com/?id=' + url,
+			dataType: 'jsonp'
+		});
 	};
 
 
@@ -35,7 +38,8 @@ var socialButtons = function() {
 
 	return {
 		getTwitterCount: getTwitterCount,
-		getLinkedinCount: getLinkedinCount
+		getLinkedinCount: getLinkedinCount,
+		getFacebookCount: getFacebookCount
 	}
 
 }();
