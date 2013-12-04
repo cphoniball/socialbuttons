@@ -46,3 +46,31 @@ asyncTest('getFacebookCount', function() {
 	testFacebook('http://google.com');
 	testFacebook('http://smallbusiness.com/make-sell/digital-marketing/tips-from-etsy/');
 });
+
+asyncTest('getSharedcount', function() {
+	var countDown = createAsyncCounter(3);
+
+	function testSharedcount(url) {
+		socialButtons.getSharedcount(url).done(function(data, status, xhr) {
+			deepEqual(typeof data.Twitter, 'number');
+		}).always(countDown);
+	}
+
+	testSharedcount('http://smallbusiness.com');
+	testSharedcount('http://google.com');
+	testSharedcount('http://smallbusiness.com/make-sell/digital-marketing/tips-from-etsy/');
+});
+
+asyncTest('getPinterestCount', function() {
+	var countDown = createAsyncCounter(3);
+
+	function testPinterestCount(url) {
+		socialButtons.getPinterestCount(url).done(function(data, status, xhr) {
+			deepEqual(typeof data.count, 'number');
+		}).always(countDown);
+	}
+
+	testPinterestCount('http://smallbusiness.com');
+	testPinterestCount('http://google.com');
+	testPinterestCount('http://smallbusiness.com/make-sell/digital-marketing/tips-from-etsy/');
+});
