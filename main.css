@@ -2,6 +2,10 @@
   padding: 8px 12px;
   border: 0;
   color: white; }
+  .social-button:hover, .social-button:focus, .social-button:active {
+    color: white;
+    text-decoration: none;
+    cursor: pointer; }
 
 .social-facebook {
   background-color: #3b5998; }

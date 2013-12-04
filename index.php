@@ -21,39 +21,39 @@
 				<h1>Social Buttons</h1>
 
 				<h3>Plain buttons</h3>
-				<ul class="button-list">
-					<li><button class="social-button social-facebook">Facebook</button></li>
-					<li><button class="social-button social-pinterest">Pinterest</button></li>
-					<li><button class="social-button social-linkedin">Linkedin</button></li>
-					<li><button class="social-button social-google-plus">Google+</button></li>
-					<li><button class="social-button social-twitter">Twitter</button></li>
+				<ul class="button-list" data-url="http://smallbusiness.com">
+					<li><a data-site="facebook" class="social-button social-facebook">Facebook</a></li>
+					<li><a data-site="pinterest" class="social-button social-pinterest">Pinterest</a></li>
+					<li><a data-site="linkedin" class="social-button social-linkedin">Linkedin</a></li>
+					<li><a data-site="google-plus" class="social-button social-google-plus">Google+</a></li>
+					<li><a data-site="twitter" class="social-button social-twitter">Twitter</a></li>
 				</ul>
 
 				<h3>Icon buttons</h3>
-				<ul class="button-list">
-					<li><button class="social-button social-facebook"><i class="fa fa-lg fa-facebook"></i></button></li>
-					<li><button class="social-button social-pinterest"><i class="fa fa-lg fa-pinterest"></i></button></li>
-					<li><button class="social-button social-linkedin"><i class="fa fa-lg fa-linkedin"></i></button></li>
-					<li><button class="social-button social-google-plus"><i class="fa fa-lg fa-google-plus"></i></button></li>
-					<li><button class="social-button social-twitter"><i class="fa fa-lg fa-twitter"></i></button></li>
+				<ul class="button-list" data-url="http://smallbusiness.com">
+					<li><a data-site="facebook" class="social-button social-facebook"><i class="fa fa-lg fa-facebook"></i></a></li>
+					<li><a data-site="pinterest" class="social-button social-pinterest"><i class="fa fa-lg fa-pinterest"></i></a></li>
+					<li><a data-site="linkedin" class="social-button social-linkedin"><i class="fa fa-lg fa-linkedin"></i></a></li>
+					<li><a data-site="google-plus" class="social-button social-google-plus"><i class="fa fa-lg fa-google-plus"></i></a></li>
+					<li><a data-site="twitter" class="social-button social-twitter"><i class="fa fa-lg fa-twitter"></i></a></li>
 				</ul>
 
 				<h3>Plain buttons with count (for smallbusiness.com)</h3>
 				<ul class="social-buttons button-list showcount" data-url="http://smallbusiness.com">
-					<li><button data-showcount="true" data-site="facebook" class="social-button social-facebook">Facebook</button></li>
-					<li><button data-showcount="true" data-site="pinterest" class="social-button social-pinterest">Pinterest</button></li>
-					<li><button data-showcount="true" data-site="linkedin" class="social-button social-linkedin">Linkedin</button></li>
-					<li><button data-showcount="true" data-site="google-plus" class="social-button social-google-plus">Google+</button></li>
-					<li><button data-showcount="true" data-site="twitter" class="social-button social-twitter">Twitter</button></li>
+					<li><a data-showcount="true" data-site="facebook" class="social-button social-facebook">Facebook</a></li>
+					<li><a data-showcount="true" data-site="pinterest" class="social-button social-pinterest">Pinterest</a></li>
+					<li><a data-showcount="true" data-site="linkedin" class="social-button social-linkedin">Linkedin</a></li>
+					<li><a data-showcount="true" data-site="google-plus" class="social-button social-google-plus">Google+</a></li>
+					<li><a data-showcount="true" data-site="twitter" class="social-button social-twitter">Twitter</a></li>
 				</ul>
 
 				<h3>Icon buttons with count (for smallbusiness.com)</h3>
 				<ul class="button-list showcount" data-url="http://smallbusiness.com">
-					<li><button data-showcount="true" data-site="facebook" class="social-button social-facebook"><i class="fa fa-lg fa-facebook"></i></button></li>
-					<li><button data-showcount="true" data-site="pinterest" class="social-button social-pinterest"><i class="fa fa-lg fa-pinterest"></i></button></li>
-					<li><button data-showcount="true" data-site="linkedin" class="social-button social-linkedin"><i class="fa fa-lg fa-linkedin"></i></button></li>
-					<li><button data-showcount="true" data-site="google-plus" class="social-button social-google-plus"><i class="fa fa-lg fa-google-plus"></i></button></li>
-					<li><button data-showcount="true" data-site="twitter" class="social-button social-twitter"><i class="fa fa-lg fa-twitter"></i></button></li>
+					<li><a data-showcount="true" data-site="facebook" class="social-button social-facebook"><i class="fa fa-lg fa-facebook"></i></a></li>
+					<li><a data-showcount="true" data-site="pinterest" class="social-button social-pinterest"><i class="fa fa-lg fa-pinterest"></i></a></li>
+					<li><a data-showcount="true" data-site="linkedin" class="social-button social-linkedin"><i class="fa fa-lg fa-linkedin"></i></a></li>
+					<li><a data-showcount="true" data-site="google-plus" class="social-button social-google-plus"><i class="fa fa-lg fa-google-plus"></i></a></li>
+					<li><a data-showcount="true" data-site="twitter" class="social-button social-twitter"><i class="fa fa-lg fa-twitter"></i></a></li>
 				</ul>
 			</div>
 

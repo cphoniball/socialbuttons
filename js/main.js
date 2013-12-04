@@ -4,4 +4,10 @@ $(document).ready(function() {
 		$(this).addSocialCounts();
 	});
 
+	$('.social-button').initSocialButtons({
+		url: 'http://smallbusiness.com',
+		title: 'Sample title',
+		summary: 'Sample summary'
+	});
+
 });

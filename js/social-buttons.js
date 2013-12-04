@@ -69,13 +69,47 @@ var socialButtons = function() {
 		}
 	};
 
+	var generateShareUrl = function(site, url, title, summary, imageUrl) {
+		if (site === 'facebook') {
+			return 'http://www.facebook.com/sharer/sharer.php?u=' + url;
+		} else if (site === 'pinterest') {
+			var shareUrl = 'http://pinterest.com/pin/create/button/?url=' + url;
+			if (typeof summary === 'string') {
+				shareUrl += '&description=' + summary;
+			}
+			if (typeof imageUrl === 'string') {
+				shareUrl += '&media=' + imageUrl;
+			}
+			return shareUrl;
+		} else if (site === 'linkedin') {
+			var shareUrl = 'http://www.linkedin.com/shareArticle?mini=true?url=' + url + '&source=' + url;
+			if (typeof title === 'string') {
+				shareUrl += '&title=' + title;
+			}
+			if (typeof summary === 'string') {
+				shareUrl += '&summary=' + summary;
+			}
+			return shareUrl;
+		} else if (site === 'google-plus') {
+			return 'http://plus.google.com/share?url=' + url;
+		} else if (site === 'twitter') {
+			var shareUrl = 'https://twitter.com/intent/tweet?url=' + url;
+			if (typeof title === 'string') {
+				shareUrl += 'text=' + title;
+			}
+			return shareUrl;
+		}
+	}
+
+
 	return {
 		getTwitterCount: getTwitterCount,
 		getLinkedinCount: getLinkedinCount,
 		getFacebookCount: getFacebookCount,
 		getPinterestCount: getPinterestCount,
 		getSharedcount: getSharedcount,
-		extractSharedcountData: extractSharedcountData
+		extractSharedcountData: extractSharedcountData,
+		generateShareUrl: generateShareUrl
 	}
 
 }();
@@ -84,7 +118,7 @@ var socialButtons = function() {
 
 	$.fn.addSocialCounts = function(url) {
 		var url = url || this.data('url');
-		var $buttons = this.find('button[data-showcount="true"]');
+		var $buttons = this.find('.social-button[data-showcount="true"]');
 
 
 		socialButtons.getSharedcount(url).done(function(data, status, xhr) {
@@ -93,16 +127,27 @@ var socialButtons = function() {
 					var contents = $(this).html();
 					var count = socialButtons.extractSharedcountData($(this).data('site'), data);
 					if (count) {
-						contents = contents + '<span class="social-count">' + count + '</span>';
-						$(this).html(contents);
+						$(this).html(contents + '<span class="social-count">' + count + '</span>');
 					}
 				}
 			});
 		});
 	};
 
-	$.fn.registerShareButtons = function() {
+	$.fn.initSocialButtons = function(options) {
+		var settings = {
+			url: 'http://example.com',
+			title: false,
+			summary: false
+		};
+		if (typeof options.title === 'undefined') return false;
+		$.extend(settings, options);
 
+		this.each(function(i, e) {
+			var site = $(this).data('site');
+			var shareUrl = socialButtons.generateShareUrl(site, settings.url, settings.title, settings.summary);
+			$(this).attr('href', shareUrl);
+		});
 	};
 
 })();
