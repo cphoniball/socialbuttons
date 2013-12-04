@@ -29,7 +29,6 @@ var socialButtons = function() {
 		});
 	};
 
-
 	var getLinkedinCount = function(url) {
 		return $.ajax({
 			url: 'http://www.linkedin.com/countserv/count/share?url=' + url,
@@ -51,9 +50,6 @@ var socialButtons = function() {
 			dataType: 'jsonp'
 		});
 	};
-
-
-
 
 	return {
 		getTwitterCount: getTwitterCount,
