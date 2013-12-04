@@ -37,6 +37,24 @@
 					<li><button class="social-button social-google-plus"><i class="fa fa-lg fa-google-plus"></i></button></li>
 					<li><button class="social-button social-twitter"><i class="fa fa-lg fa-twitter"></i></button></li>
 				</ul>
+
+				<h3>Plain buttons with count (for smallbusiness.com)</h3>
+				<ul class="social-buttons button-list showcount" data-url="http://smallbusiness.com">
+					<li><button data-showcount="true" data-site="facebook" class="social-button social-facebook">Facebook</button></li>
+					<li><button data-showcount="true" data-site="pinterest" class="social-button social-pinterest">Pinterest</button></li>
+					<li><button data-showcount="true" data-site="linkedin" class="social-button social-linkedin">Linkedin</button></li>
+					<li><button data-showcount="true" data-site="google-plus" class="social-button social-google-plus">Google+</button></li>
+					<li><button data-showcount="true" data-site="twitter" class="social-button social-twitter">Twitter</button></li>
+				</ul>
+
+				<h3>Icon buttons with count (for smallbusiness.com)</h3>
+				<ul class="button-list showcount" data-url="http://smallbusiness.com">
+					<li><button data-showcount="true" data-site="facebook" class="social-button social-facebook"><i class="fa fa-lg fa-facebook"></i></button></li>
+					<li><button data-showcount="true" data-site="pinterest" class="social-button social-pinterest"><i class="fa fa-lg fa-pinterest"></i></button></li>
+					<li><button data-showcount="true" data-site="linkedin" class="social-button social-linkedin"><i class="fa fa-lg fa-linkedin"></i></button></li>
+					<li><button data-showcount="true" data-site="google-plus" class="social-button social-google-plus"><i class="fa fa-lg fa-google-plus"></i></button></li>
+					<li><button data-showcount="true" data-site="twitter" class="social-button social-twitter"><i class="fa fa-lg fa-twitter"></i></button></li>
+				</ul>
 			</div>
 
 
