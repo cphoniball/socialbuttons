@@ -6,6 +6,8 @@
     color: white;
     text-decoration: none;
     cursor: pointer; }
+  .social-button .fa-spinner {
+    margin-left: 10px; }
 
 .social-facebook {
   background-color: #3b5998; }

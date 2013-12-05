@@ -23,38 +23,28 @@ var socialButtons = function() {
 		return $.sharedCount(url);
 	};
 
-	var getIndividualCount = function(site, url) {
+	var getSiteCount = function(site, url) {
 		if (site === 'facebook') {
-
-		}
-	};
-
-	var getTwitterCount = function(url) {
-		return $.ajax({
-			url: 'http://cdn.api.twitter.com/1/urls/count.json?url=' + url,
-			dataType: 'jsonp'
-		});
-	};
-
-	var getLinkedinCount = function(url) {
-		return $.ajax({
-			url: 'http://www.linkedin.com/countserv/count/share?url=' + url,
-			dataType: 'jsonp'
-		});
-	};
-
-	var getPinterestCount = function(url) {
-		return $.ajax({
-			url: 'http://api.pinterest.com/v1/urls/count.json?url=' + url,
-			dataType: 'jsonp'
-		});
-	};
-
-	var getFacebookCount = function(url) {
-		return $.ajax({
-			url: 'http://graph.facebook.com/?id=' + url,
-			dataType: 'jsonp'
-		});
+			return $.ajax({
+				url: 'http://graph.facebook.com/?id=' + url,
+				dataType: 'jsonp'
+			});
+		} else if (site === 'twitter') {
+			return $.ajax({
+				url: 'http://cdn.api.twitter.com/1/urls/count.json?url=' + url,
+				dataType: 'jsonp'
+			});
+		} else if (site === 'linkedin') {
+			return $.ajax({
+				url: 'http://www.linkedin.com/countserv/count/share?url=' + url,
+				dataType: 'jsonp'
+			});
+		} else if (site === 'pinterest') {
+			return $.ajax({
+				url: 'http://api.pinterest.com/v1/urls/count.json?url=' + url,
+				dataType: 'jsonp'
+			});
+		} else return false;
 	};
 
 	var extractSharedcountData = function(site, data) {
@@ -111,11 +101,8 @@ var socialButtons = function() {
 	}
 
 	return {
-		getTwitterCount: getTwitterCount,
-		getLinkedinCount: getLinkedinCount,
-		getFacebookCount: getFacebookCount,
-		getPinterestCount: getPinterestCount,
 		getSharedcount: getSharedcount,
+		getSiteCount: getSiteCount,
 		extractSharedcountData: extractSharedcountData,
 		generateShareUrl: generateShareUrl
 	}
@@ -124,18 +111,23 @@ var socialButtons = function() {
 
 (function() {
 
-	$.fn.addSocialCounts = function(url) {
+	$.fn.addSocialCounts = function(url, showLoader) {
 		var url = url || this.data('url');
 		var $buttons = this.find('.social-button[data-showcount="true"]');
 
+		if (showLoader) {
+			$buttons.each(function(i, e) {
+				$(this).append('<i class="fa fa-spinner fa-spin"></i>');
+			});
+		}
 
 		socialButtons.getSharedcount(url).done(function(data, status, xhr) {
 			$buttons.each(function(i, e) {
 				if ($(this).data('showcount') === true) {
-					var contents = $(this).html();
 					var count = socialButtons.extractSharedcountData($(this).data('site'), data);
+					if (showLoader) { $(this).find('.fa-spinner').remove(); }
 					if (count) {
-						$(this).html(contents + '<span class="social-count">' + count + '</span>');
+						$(this).append('<span class="social-count">' + count + '</span>');
 					}
 				}
 			});
@@ -146,9 +138,9 @@ var socialButtons = function() {
 		var settings = {
 			url: 'http://example.com/', // note that the URL must contain a trailing slash, or twitter will add a / to the end of the tweet
 			title: false,
-			summary: false,
-			twitterAccount: false,
-			targetBlank: true
+			summary: false, //
+			twitterAccount: false, // will be used as the twitter .via
+			targetBlank: true // sets target = blank on all buttons
 		};
 
 		if (typeof options.title === 'undefined') return false;

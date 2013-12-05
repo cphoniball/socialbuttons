@@ -5,72 +5,28 @@ function createAsyncCounter(count) {
 	return function() { --count || start(); };
 }
 
-asyncTest('getTwitterCount', function() {
-	var countDown = createAsyncCounter(3);
+asyncTest('getSiteCount', function() {
+	var countDown = createAsyncCounter(12);
 
-	function testTwitter(url) {
-		socialButtons.getTwitterCount(url).done(function(data, status, xhr) {
-			deepEqual(typeof data.count, 'number');
+	function testSiteCount(site, url) {
+		socialButtons.getSiteCount(site, url).done(function(data, status, xhr) {
+			deepEqual(typeof data, 'object');
 		}).always(countDown);
 	}
 
-	testTwitter('http://smallbusiness.com');
-	testTwitter('http://google.com');
-	testTwitter('http://smallbusiness.com/make-sell/digital-marketing/tips-from-etsy/');
-});
+	testSiteCount('facebook', 'http://smallbusiness.com');
+	testSiteCount('facebook', 'http://google.com');
+	testSiteCount('facebook', 'http://smallbusiness.com/make-sell/digital-marketing/tips-from-etsy/');
 
-asyncTest('getLinkedinCount', function() {
-	var countDown = createAsyncCounter(3);
+	testSiteCount('twitter', 'http://smallbusiness.com');
+	testSiteCount('twitter', 'http://google.com');
+	testSiteCount('twitter', 'http://smallbusiness.com/make-sell/digital-marketing/tips-from-etsy/');
 
-	function testLinkedin(url) {
-		socialButtons.getLinkedinCount(url).done(function(data, status, xhr) {
-			deepEqual(typeof data.count, 'number');
-		}).always(countDown);
-	}
+	testSiteCount('linkedin', 'http://smallbusiness.com');
+	testSiteCount('linkedin', 'http://google.com');
+	testSiteCount('linkedin', 'http://smallbusiness.com/make-sell/digital-marketing/tips-from-etsy/');
 
-	testLinkedin('http://smallbusiness.com');
-	testLinkedin('http://google.com');
-	testLinkedin('http://smallbusiness.com/make-sell/digital-marketing/tips-from-etsy/');
-});
-
-asyncTest('getFacebookCount', function() {
-	var countDown = createAsyncCounter(3);
-
-	function testFacebook(url) {
-		socialButtons.getFacebookCount(url).done(function(data, status, xhr) {
-			deepEqual(typeof data.shares, 'number');
-		}).always(countDown);
-	}
-
-	testFacebook('http://smallbusiness.com');
-	testFacebook('http://google.com');
-	testFacebook('http://smallbusiness.com/make-sell/digital-marketing/tips-from-etsy/');
-});
-
-asyncTest('getSharedcount', function() {
-	var countDown = createAsyncCounter(3);
-
-	function testSharedcount(url) {
-		socialButtons.getSharedcount(url).done(function(data, status, xhr) {
-			deepEqual(typeof data.Twitter, 'number');
-		}).always(countDown);
-	}
-
-	testSharedcount('http://smallbusiness.com');
-	testSharedcount('http://google.com');
-	testSharedcount('http://smallbusiness.com/make-sell/digital-marketing/tips-from-etsy/');
-});
-
-asyncTest('getPinterestCount', function() {
-	var countDown = createAsyncCounter(3);
-
-	function testPinterestCount(url) {
-		socialButtons.getPinterestCount(url).done(function(data, status, xhr) {
-			deepEqual(typeof data.count, 'number');
-		}).always(countDown);
-	}
-
-	testPinterestCount('http://smallbusiness.com');
-	testPinterestCount('http://google.com');
-	testPinterestCount('http://smallbusiness.com/make-sell/digital-marketing/tips-from-etsy/');
+	testSiteCount('pinterest', 'http://smallbusiness.com');
+	testSiteCount('pinterest', 'http://google.com');
+	testSiteCount('pinterest', 'http://smallbusiness.com/make-sell/digital-marketing/tips-from-etsy/');
 });
