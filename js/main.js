@@ -5,9 +5,10 @@ $(document).ready(function() {
 	});
 
 	$('.social-button').initSocialButtons({
-		url: 'http://smallbusiness.com',
+		url: 'http://smallbusiness.com/',
 		title: 'Sample title',
-		summary: 'Sample summary'
+		summary: 'Sample summary',
+		twitterAccount: 'smallbusiness'
 	});
 
 });

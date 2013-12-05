@@ -21,7 +21,7 @@
 				<h1>Social Buttons</h1>
 
 				<h3>Plain buttons</h3>
-				<ul class="button-list" data-url="http://smallbusiness.com">
+				<ul class="button-list" data-url="http://smallbusiness.com/">
 					<li><a data-site="facebook" class="social-button social-facebook">Facebook</a></li>
 					<li><a data-site="pinterest" class="social-button social-pinterest">Pinterest</a></li>
 					<li><a data-site="linkedin" class="social-button social-linkedin">Linkedin</a></li>
@@ -30,7 +30,7 @@
 				</ul>
 
 				<h3>Icon buttons</h3>
-				<ul class="button-list" data-url="http://smallbusiness.com">
+				<ul class="button-list" data-url="http://smallbusiness.com/">
 					<li><a data-site="facebook" class="social-button social-facebook"><i class="fa fa-lg fa-facebook"></i></a></li>
 					<li><a data-site="pinterest" class="social-button social-pinterest"><i class="fa fa-lg fa-pinterest"></i></a></li>
 					<li><a data-site="linkedin" class="social-button social-linkedin"><i class="fa fa-lg fa-linkedin"></i></a></li>
@@ -39,7 +39,7 @@
 				</ul>
 
 				<h3>Plain buttons with count (for smallbusiness.com)</h3>
-				<ul class="social-buttons button-list showcount" data-url="http://smallbusiness.com">
+				<ul class="social-buttons button-list showcount" data-url="http://smallbusiness.com/">
 					<li><a data-showcount="true" data-site="facebook" class="social-button social-facebook">Facebook</a></li>
 					<li><a data-showcount="true" data-site="pinterest" class="social-button social-pinterest">Pinterest</a></li>
 					<li><a data-showcount="true" data-site="linkedin" class="social-button social-linkedin">Linkedin</a></li>
@@ -48,7 +48,7 @@
 				</ul>
 
 				<h3>Icon buttons with count (for smallbusiness.com)</h3>
-				<ul class="button-list showcount" data-url="http://smallbusiness.com">
+				<ul class="button-list showcount" data-url="http://smallbusiness.com/">
 					<li><a data-showcount="true" data-site="facebook" class="social-button social-facebook"><i class="fa fa-lg fa-facebook"></i></a></li>
 					<li><a data-showcount="true" data-site="pinterest" class="social-button social-pinterest"><i class="fa fa-lg fa-pinterest"></i></a></li>
 					<li><a data-showcount="true" data-site="linkedin" class="social-button social-linkedin"><i class="fa fa-lg fa-linkedin"></i></a></li>
