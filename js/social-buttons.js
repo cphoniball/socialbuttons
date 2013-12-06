@@ -1,6 +1,8 @@
 var socialButtons = function() {
 
 	// Get functions, retrieves share counts
+	// This is a jQuery extension from sharedcount.com, as the jQuery jsonp module
+	// cachebusts too aggressively for their API
 	jQuery.sharedCount = function(url, fn) {
 		url = encodeURIComponent(url || location.href);
 		var arg = {
@@ -19,10 +21,19 @@ var socialButtons = function() {
 		return jQuery.ajax(arg);
 	};
 
+	// Makes the sharedcount call and returns the jqXHR object
+	// Args:
+	//    url: url to get share count for
 	var getSharedcount = function(url) {
 		return $.sharedCount(url);
 	};
 
+	// Makes a request to get a social media share count from an individual site
+	// This makes the request directly to the service and does not go through sharedcount.com
+	// GooglePlus is not available, as they do not have a readily accessible http endpoint to get shared counts
+	// Args:
+	//   site: one of 'facebook', 'twitter', 'linkedin', or 'pinterest'
+	//   url: url to get share count for
 	var getSiteCount = function(site, url) {
 		if (site === 'facebook') {
 			return $.ajax({
@@ -47,10 +58,16 @@ var socialButtons = function() {
 		} else return false;
 	};
 
+	// Returns total share count for Facebook, Twitter, Pinterest, and LinkedIn
+	// Args:
+	//   data: Data returned by the request to sharedcount.com
 	var extractTotalShares = function(data) {
 		return data.Facebook.total_count + data.Twitter + data.Pinterest + data.LinkedIn;
 	}
 
+	// Returns share count for individual site
+	// Args:
+	//   site: name of site you'd like information for, one of 'facebook', 'pinterest', 'linkedin', 'google-plus', and 'twitter'
 	var extractSharedcountData = function(site, data) {
 		if (!site || !data) return false;
 
@@ -69,6 +86,10 @@ var socialButtons = function() {
 		}
 	};
 
+	// Generates the correct http endpoint for each of the social sharing services
+	// Args:
+	//   site: social network to generate url for, one of 'facebook', 'twitter', 'google-plus' or 'linkedin'
+	//   options: should be the same object that is passed in to $.fn.initSocialButtons, see that documention for options
 	var generateShareUrl = function(site, options) {
 		if (site === 'facebook') {
 			return 'http://www.facebook.com/sharer/sharer.php?u=' + options.url;
@@ -155,6 +176,11 @@ var socialButtons = function() {
 
 
 	// Adds social counts to buttons
+	// Should be called on buttons themselves
+	// Args:
+	//   url: URL to get information for. Pass in false if you want to read from data attributes on each button instead
+	//   showLoader: boolean, true if you want to show a loader while the http request runs
+	//   callback: function, accepts "data" argument which will be the data returned from the http request to sharedcount.com
 	$.fn.addSocialCounts = function(url, showLoader, callback) {
 		var url = url || this.data('url');
 		var $buttons = this;
