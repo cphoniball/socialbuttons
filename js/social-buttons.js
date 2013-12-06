@@ -47,6 +47,10 @@ var socialButtons = function() {
 		} else return false;
 	};
 
+	var extractTotalShares = function(data) {
+		return data.Facebook.total_count + data.Twitter + data.Pinterest + data.LinkedIn;
+	}
+
 	var extractSharedcountData = function(site, data) {
 		if (!site || !data) return false;
 
@@ -103,7 +107,8 @@ var socialButtons = function() {
 	return {
 		getSharedcount: getSharedcount,
 		getSiteCount: getSiteCount,
-		extractSharedcountData: extractSharedcountData,
+		sharedcountData: extractSharedcountData,
+		totalShares: extractTotalShares,
 		generateShareUrl: generateShareUrl
 	}
 
@@ -111,35 +116,23 @@ var socialButtons = function() {
 
 (function() {
 
-	$.fn.addSocialCounts = function(url, showLoader) {
-		var url = url || this.data('url');
-		var $buttons = this.find('.social-button[data-showcount="true"]');
 
-		if (showLoader) {
-			$buttons.each(function(i, e) {
-				$(this).append('<i class="fa fa-spinner fa-spin"></i>');
-			});
-		}
-
-		socialButtons.getSharedcount(url).done(function(data, status, xhr) {
-			$buttons.each(function(i, e) {
-				if ($(this).data('showcount') === true) {
-					var count = socialButtons.extractSharedcountData($(this).data('site'), data);
-					if (showLoader) { $(this).find('.fa-spinner').remove(); }
-					if (count) {
-						$(this).append('<span class="social-count">' + count + '</span>');
-					}
-				}
-			});
-		});
-	};
-
+	// Sets the URLs for share buttons appropriately. Needs to be called on a class attached to the social buttons themselves
+	// Recommended class is 'social-button'
+	// Args:
+	//   url: base url of the website you're sharing. Must end with a trailing slash.
+	//   title: title of the article or page
+	//   summary: summary of article or page
+	//   twitterAccount: name of the twitter account for @via options
+	//   imgUrl: image URL for pinterest shares
+	//   targetBlank: whether or not to make the links open in another window, true by default
 	$.fn.initSocialButtons = function(options) {
 		var settings = {
 			url: 'http://example.com/', // note that the URL must contain a trailing slash, or twitter will add a / to the end of the tweet
 			title: false,
 			summary: false, //
 			twitterAccount: false, // will be used as the twitter .via
+			imageUrl: false,
 			targetBlank: true // sets target = blank on all buttons
 		};
 
@@ -157,6 +150,37 @@ var socialButtons = function() {
 			var shareUrl = socialButtons.generateShareUrl(site, settings);
 			$(this).attr('href', shareUrl);
 		});
+		return this;
 	};
+
+
+	// Adds social counts to buttons
+	$.fn.addSocialCounts = function(url, showLoader, callback) {
+		var url = url || this.data('url');
+		var $buttons = this;
+
+		if (showLoader) {
+			$buttons.each(function(i, e) {
+				$(this).append('<i class="fa fa-spinner fa-spin"></i>');
+			});
+		}
+
+		socialButtons.getSharedcount(url).done(function(data, status, xhr) {
+			$buttons.each(function(i, e) {
+				if ($(this).data('showcount') === true) {
+					var count = socialButtons.sharedcountData($(this).data('site'), data);
+					if (showLoader) { $(this).find('.fa-spinner').remove(); }
+					if (count) {
+						$(this).append('<span class="social-count">' + count + '</span>');
+					}
+				}
+			});
+			callback(data);
+		});
+
+		return this;
+	};
+
+
 
 })();
