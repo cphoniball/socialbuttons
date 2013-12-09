@@ -1,5 +1,6 @@
 var SocialButtons = function(options) {
 
+	// private vars
 	var settings = {
 		selector: '.social-button',
 		url: 'http://example.com/', // note that the URL must contain a trailing slash, or twitter will add a / to the end of the tweet
@@ -7,13 +8,19 @@ var SocialButtons = function(options) {
 		summary: false, //
 		twitterAccount: false, // will be used as the twitter .via
 		imageUrl: false,
-		targetBlank: true // sets target = blank on all buttons
+		targetBlank: true, // sets target = blank on all buttons
+		getCount: true
 	};
 
 	$.extend(settings, options);
 
 	var $buttons = $(settings.selector);
 	var instance = this;
+
+	// public vars
+	this.count = {};
+	this.sharedRequest = false;
+
 
 	// Makes the sharedcount call and returns the jqXHR object
 	// Uses the jQuery plugin provided on sharedcount.com, as the service does not like the jQuery jsonp wrapper
@@ -34,7 +41,8 @@ var SocialButtons = function(options) {
 			arg.jsonpCallback = cb;
 			arg.dataType += "p";
 		}
-		return jQuery.ajax(arg);
+		instance.sharedRequest = jQuery.ajax(arg);
+		return instance.sharedRequest;
 	};
 
 	// Makes a request to get a social media share count from an individual site
@@ -134,72 +142,60 @@ var SocialButtons = function(options) {
 		}
 	}
 
-	this.addSocialCounts = function(filterSelector, showLoader, callback) {
-		var $filteredButtons = $buttons;
-		if (filterSelector) {
-			$filteredButtons = $buttons.find(filterSelector);
-		}
+	this.addSocialCounts = function(showLoader, filterSelector, callback) {
+		if (!settings.getCount) return false;
 
-		if (showLoader) {
-			$filteredButtons.each(function(i, e) {
-				$(this).append('<i class="fa fa-spinner fa-spin"></i>');
-			});
-		}
+		instance.sharedRequest.done(function() {
+			// set buttons that will get social counts added
+			var $filteredButtons = $buttons;
+			if (filterSelector) $filteredButtons = $buttons.find(filterSelector);
 
-		instance.getSharedcount().done(function(data, status, xhr) {
-			$buttons.each(function(i, e) {
-				if ($(this).data('showcount') === true) {
-					var count = instance.extractSharedcountData($(this).data('site'), data);
-					if (showLoader) { $(this).find('.fa-spinner').remove(); }
-					if (count) {
-						$(this).append('<span class="social-count">' + count + '</span>');
+			if (showLoader) {
+				$filteredButtons.each(function(i, e) {
+					$(this).append('<i class="fa fa-spinner fa-spin"></i>');
+				});
+			}
+
+			instance.getSharedcount().done(function(data, status, xhr) {
+				$buttons.each(function(i, e) {
+					if ($(this).data('showcount') === true) {
+						var count = instance.extractSharedcountData($(this).data('site'), data);
+						if (showLoader) { $(this).find('.fa-spinner').remove(); }
+						if (count) {
+							$(this).append('<span class="social-count">' + count + '</span>');
+						}
 					}
-				}
+				});
+				if (callback) callback(data);
 			});
-			callback(data);
 		});
 
 		return $buttons;
 	}
 
-	if (settings.targetBlank) {
-		$buttons.each(function(i, e) {
-			$(this).attr('target', '_blank');
-		});
-	}
+	// init function
 
-	$buttons.each(function(i, e) {
-		var site = $(this).data('site');
-		var shareUrl = instance.generateShareUrl(site, settings);
-		$(this).attr('href', shareUrl);
-	});
+	var init = function() {
+		// set buttons to open in another window
+		if (settings.targetBlank) {
+			$buttons.each(function(i, e) {
+				$(this).attr('target', '_blank');
+			});
+		}
+
+		// get social counts if settings.getCount = true
+		if (settings.getCount) {
+			instance.getSharedcount();
+		}
+
+		$buttons.each(function(i, e) {
+			var site = $(this).data('site');
+			var shareUrl = instance.generateShareUrl(site, settings);
+			$(this).attr('href', shareUrl);
+		});
+	}();
+
 
 	return this;
 
 };
-
-(function() {
-
-
-	// Sets the URLs for share buttons appropriately. Needs to be called on a class attached to the social buttons themselves
-	// Recommended class is 'social-button'
-	// Args:
-	//   url: base url of the website you're sharing. Must end with a trailing slash.
-	//   title: title of the article or page
-	//   summary: summary of article or page
-	//   twitterAccount: name of the twitter account for @via options
-	//   imgUrl: image URL for pinterest shares
-	//   targetBlank: whether or not to make the links open in another window, true by default
-	$.fn.initSocialButtons = function(options) {};
-
-
-	// Adds social counts to buttons
-	// Should be called on buttons themselves
-	// Args:
-	//   url: URL to get information for. Pass in false if you want to read from data attributes on each button instead
-	//   showLoader: boolean, true if you want to show a loader while the http request runs
-	//   callback: function, accepts "data" argument which will be the data returned from the http request to sharedcount.com
-	$.fn.addSocialCounts = function(url, showLoader, callback) {};
-
-
-})();

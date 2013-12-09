@@ -8,14 +8,13 @@ $(document).ready(function() {
 	// });
 
 	var socialButtons = new SocialButtons({
+		getCount: true,
 		url: 'http://smallbusiness.com',
 		selector: '.social-button',
 		summary: 'Sample Summary',
 		twitterAccount: 'smallbusiness'
 	});
 
-	socialButtons.addSocialCounts('[data-showcount="true"]', true, function() {
-		console.log('Dat callback is working.');
-	});
+	socialButtons.addSocialCounts(true, '[data-showcount="true"]');
 
 });
