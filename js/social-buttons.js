@@ -1,9 +1,10 @@
 var socialButtons = function() {
 
-	// Get functions, retrieves share counts
-	// This is a jQuery extension from sharedcount.com, as the jQuery jsonp module
-	// cachebusts too aggressively for their API
-	jQuery.sharedCount = function(url, fn) {
+	// Makes the sharedcount call and returns the jqXHR object
+	// Uses the jQuery plugin provided on sharedcount.com, as the service does not like the jQuery jsonp wrapper
+	// Args:
+	//    url: url to get share count for
+	var getSharedcount = function(url, fn) {
 		url = encodeURIComponent(url || location.href);
 		var arg = {
 			url: "//" + (location.protocol == "https:" ? "sharedcount.appspot" : "api.sharedcount") + ".com/?url=" + url,
@@ -19,13 +20,6 @@ var socialButtons = function() {
 			arg.dataType += "p";
 		}
 		return jQuery.ajax(arg);
-	};
-
-	// Makes the sharedcount call and returns the jqXHR object
-	// Args:
-	//    url: url to get share count for
-	var getSharedcount = function(url) {
-		return $.sharedCount(url);
 	};
 
 	// Makes a request to get a social media share count from an individual site
