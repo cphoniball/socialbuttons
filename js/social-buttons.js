@@ -1,4 +1,21 @@
-var socialButtons = function() {
+var socialButtons = function(options) {
+
+
+	var init = function(options) {
+		var settings = {
+			url: 'http://example.com/', // note that the URL must contain a trailing slash, or twitter will add a / to the end of the tweet
+			title: false,
+			summary: false, //
+			twitterAccount: false, // will be used as the twitter .via
+			imageUrl: false,
+			targetBlank: true // sets target = blank on all buttons
+		};
+
+		$.extend(settings, options);
+
+		return this;
+	}
+
 
 	// Makes the sharedcount call and returns the jqXHR object
 	// Uses the jQuery plugin provided on sharedcount.com, as the service does not like the jQuery jsonp wrapper
