@@ -1,12 +1,5 @@
 $(document).ready(function() {
 
-	// $('.button-list.showcount').each(function() {
-	// 	var $total = $(this).find('.total-shares');
-	// 	$(this).find('.social-button').addSocialCounts('http://smallbusiness.com/', true, function(data) {
-	// 		$total.text(socialButtons.totalShares(data));
-	// 	});
-	// });
-
 	var socialButtons = new SocialButtons({
 		getCount: true,
 		url: 'http://smallbusiness.com',
@@ -20,7 +13,10 @@ $(document).ready(function() {
 	// You can use this construction to do various things with the data returned from the API call
 	// e.g. save to database, etc.
 	socialButtons.sharedRequest.done(function(data, status, xhr) {
-		// Do some action here
+		// The count information is available via socialButtons.count
+		console.log(socialButtons.count);
+		// Sum of all counts is available through socialButtons.count
+		console.log(socialButtons.totalCount);
 	});
 
 });
