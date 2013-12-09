@@ -42,6 +42,11 @@ var SocialButtons = function(options) {
 			arg.dataType += "p";
 		}
 		instance.sharedRequest = jQuery.ajax(arg);
+
+		instance.sharedRequest.done(function(data, status, xhr) {
+			instance.count = data;
+		});
+
 		return instance.sharedRequest;
 	};
 
@@ -145,29 +150,27 @@ var SocialButtons = function(options) {
 	this.addSocialCounts = function(showLoader, filterSelector, callback) {
 		if (!settings.getCount) return false;
 
+		var $filteredButtons = $buttons;
+		if (filterSelector) $filteredButtons = $buttons.find(filterSelector);
+
+		if (showLoader) {
+			$filteredButtons.each(function(i, e) {
+				$(this).append('<i class="fa fa-spinner fa-spin"></i>');
+			});
+		}
+
 		instance.sharedRequest.done(function() {
 			// set buttons that will get social counts added
-			var $filteredButtons = $buttons;
-			if (filterSelector) $filteredButtons = $buttons.find(filterSelector);
-
-			if (showLoader) {
-				$filteredButtons.each(function(i, e) {
-					$(this).append('<i class="fa fa-spinner fa-spin"></i>');
-				});
-			}
-
-			instance.getSharedcount().done(function(data, status, xhr) {
-				$buttons.each(function(i, e) {
-					if ($(this).data('showcount') === true) {
-						var count = instance.extractSharedcountData($(this).data('site'), data);
-						if (showLoader) { $(this).find('.fa-spinner').remove(); }
-						if (count) {
-							$(this).append('<span class="social-count">' + count + '</span>');
-						}
+			$buttons.each(function(i, e) {
+				if ($(this).data('showcount') === true) {
+					var count = instance.extractSharedcountData($(this).data('site'), instance.count);
+					if (showLoader) { $(this).find('.fa-spinner').remove(); }
+					if (count) {
+						$(this).append('<span class="social-count">' + count + '</span>');
 					}
-				});
-				if (callback) callback(data);
+				}
 			});
+			if (callback) callback(data);
 		});
 
 		return $buttons;

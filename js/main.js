@@ -17,4 +17,10 @@ $(document).ready(function() {
 
 	socialButtons.addSocialCounts(true, '[data-showcount="true"]');
 
+	// You can use this construction to do various things with the data returned from the API call
+	// e.g. save to database, etc.
+	socialButtons.sharedRequest.done(function(data, status, xhr) {
+		// Do some action here
+	});
+
 });
