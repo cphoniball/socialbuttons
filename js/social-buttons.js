@@ -26,8 +26,6 @@ var SocialButtons = function(options) {
 	var $buttons = $(settings.selector);
 	var instance = this;
 
-
-
 	/****************
 	// Public methods
 	****************/
@@ -122,6 +120,10 @@ var SocialButtons = function(options) {
 	// Displays social count on buttons
 	// Buttons must have the data attribute 'showcount' set to true
 	// Additionally, you may optionally filter by selector 'filterSelector'
+	// Args:
+	//   showLoader: true if you want a spinning loader to appear while the function waits for ajax call to finish
+	//   filterSelector: filters buttons to only show the count on some of them
+	//   callback: runs a callback after social counts have been added, passing in the count data to the function
 	this.addSocialCounts = function(showLoader, filterSelector, callback) {
 		if (!settings.getCount) return false;
 
