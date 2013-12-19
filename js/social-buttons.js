@@ -3,9 +3,9 @@ var SocialButtons = function(options) {
 	/****************
 	// Public vars
 	****************/
-	this.count = {};
-	this.totalCount = false;
-	this.sharedRequest = false;
+	this.count = {}; // equal to data returned from sharedCount API
+	this.totalCount = false; // equal to totalCount once request has been made
+	this.sharedRequest = false; // equal to the $.ajax promise object once the request has been made
 
 	/****************
 	// Private vars
@@ -18,7 +18,8 @@ var SocialButtons = function(options) {
 		twitterAccount: false, // will be used as the twitter .via
 		imageUrl: false,
 		targetBlank: true, // sets target = blank on all buttons
-		getCount: true
+		getCount: false,
+		internalEndpoint: false // internal endpoint for ajax functions
 	};
 
 	$.extend(settings, options);
@@ -29,6 +30,8 @@ var SocialButtons = function(options) {
 	/****************
 	// Public methods
 	****************/
+
+	// Calls to the sharedcount API
 
 	// Makes the sharedcount call and returns the jqXHR object
 	// Uses the jQuery plugin provided on sharedcount.com, as the service does not like the jQuery jsonp wrapper
@@ -87,6 +90,63 @@ var SocialButtons = function(options) {
 				dataType: 'jsonp'
 			});
 		} else return false;
+	};
+
+	// Internals calls to PHP functions, which will retrieve stored data from the server. Use these functions to reduce the number of API calls that are made to sharedcount.com
+
+	// Should return an array of social data that is stored internally
+	// Returns the jqXHR object so that different data formats may be dealt with
+	this.getInternalSocialData = function() {
+		return $.ajax({
+			url: settings.internalEndpoint,
+			dataType: 'json',
+			method: 'GET',
+			data: {
+				action: 'social-buttons-get',
+				url: settings.url
+			}
+		});
+	};
+
+	this.getLatestInternalSocialData = function() {
+		return $.ajax({
+			url: settings.internalEndpoint,
+			dataType: 'json',
+			method: 'GET',
+			data: {
+				action: 'social-buttons-get-latest',
+				url: settings.url
+			}
+		});
+	};
+
+	// Sends new social count data from sharedcount.com to the internal server to be written to the database
+	this.updateInternalSocialData = function(callback) {
+		var socialData = instance.getSharedcount();
+		socialData.done(function(data, status, xhr) {
+			data.timestamp = new Date().getTime() / 1000; // number of seconds since epoch
+			data.action = 'social-buttons-update';
+			$.ajax({
+				url: settings.internalEndpoint,
+				dataType: 'json',
+				method: 'POST',
+				data: data
+			}).done(callback);
+		});
+	};
+
+	// Sets up a watch on the current social buttons object
+	// This means that instead of automatically fetching the social count from the sharedcount API,
+	// social buttons will first check with the internal server to see if it has data newer than "interval" seconds
+	// If it does, it uses that data; if not, it calls the updateInternalSocialData method and uses that data instead
+	this.watch = function(interval) {
+		var socialData = instance.getLatestInternalSocialData();
+		socialData.done(function(data, status, xhr) {
+			var currentTime = new Date().getTime() / 1000;
+			if (data.timestamp < (currentTime - interval) {
+				instance.updateInternalSocialData();
+			}
+		});
 	};
 
 	// Returns total share count for Facebook, Twitter, Pinterest, and LinkedIn
@@ -152,6 +212,8 @@ var SocialButtons = function(options) {
 
 		return $buttons;
 	}
+
+
 
 
 	/****************
